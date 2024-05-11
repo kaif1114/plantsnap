@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "408651639051",
+    "project_id": "plantsnap-e9a7f",
+    "storage_bucket": "plantsnap-e9a7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408651639051:android:468a2df506bcad8154da0e",
+        "android_client_info": {
+          "package_name": "com.example.plantsnap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkUr1R6rHRHQ8EVbCVr9M-l09lL2LWunQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
