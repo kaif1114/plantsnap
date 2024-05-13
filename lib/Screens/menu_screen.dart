@@ -61,6 +61,8 @@ class MenuScreenState extends State<MenuScreen> {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(
                     children: [
@@ -89,7 +91,8 @@ class MenuScreenState extends State<MenuScreen> {
                             SizedBox(
                               width: 160,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
                                 child: Center(
                                   child: Text(
                                     featuredPlantData.name.toString(),
@@ -102,21 +105,6 @@ class MenuScreenState extends State<MenuScreen> {
                                 ),
                               ),
                             )
-                            // Container(
-                            //   padding:
-                            //       const EdgeInsets.symmetric(horizontal: 10),
-                            //   width: 165,
-                            //   child: Center(
-                            //     child: Text(
-                            //     featuredPlantData.name.toString(),
-                            //     style: GoogleFonts.quantico(
-                            //         color: Colors.white,
-                            //         fontWeight: FontWeight.w700,
-                            //         fontSize: 20,
-                            //         fontStyle: FontStyle.italic),
-                            //   ),
-                            //   )
-                            // )
                           ],
                         ),
                       ),
@@ -178,7 +166,18 @@ class MenuScreenState extends State<MenuScreen> {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  const SizedBox(
+                    height: 19,
+                  ),
+                  Image.asset(
+                    'assets/images/popular-plants-label.png',
+                    height: 21,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  PlantCardScroll(),
                 ],
               ),
             );
@@ -218,6 +217,100 @@ class MenuScreenState extends State<MenuScreen> {
               ),
               label: ""),
         ],
+      ),
+    );
+  }
+}
+
+class PlantCardScroll extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 240, // Adjust height as needed
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 10, // Number of cards
+        itemBuilder: (context, index) {
+          // Dummy data array for demonstration; replace with your data source
+          List<Map<String, String>> plantData = [
+            {"name": "Snake Plant", "image": "assets/images/house-plant.jpeg"},
+            {
+              "name": "Syngonium Plant",
+              "image": "assets/images/house-plant.jpeg"
+            },
+            // Add more plants as needed
+          ];
+
+          return Container(
+            width: 170, // Adjust width as needed
+            padding: EdgeInsets.all(8),
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: InkWell(
+                onTap: () {
+                  // Handle your tap here
+                  print('Card tapped');
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(35),
+                          boxShadow: kElevationToShadow[2],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(35),
+                          child: SizedBox.fromSize(
+                            size: const Size.fromRadius(100),
+                            child: Image.asset(
+                              plantData[index % plantData.length]["image"]!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        plantData[index % plantData.length]["name"]!,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100,
+                      height: 30,
+                      child: ElevatedButton(
+                      onPressed: () {
+                        // Handle your button tap here
+                        print('Explore tapped');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(121, 147, 92, 1),
+                         padding: EdgeInsets.symmetric(horizontal: 0),
+                        // minimumSize: Size(0, 0),
+                      ),
+                      child: Text(
+                        'EXPLORE',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                    ),
+                    const SizedBox(height: 20,),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

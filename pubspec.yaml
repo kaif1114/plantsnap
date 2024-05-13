@@ -79,6 +79,7 @@ flutter:
       - assets/images/camera-icon.png
       - assets/images/plant-icon.png
       - assets/images/book-icon.png
+      - assets/images/popular-plants-label.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
