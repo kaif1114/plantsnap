@@ -242,71 +242,74 @@ class PlantCardScroll extends StatelessWidget {
           ];
 
           return Container(
-            width: 170, // Adjust width as needed
+            width: 160, // Adjust width as needed
             padding: EdgeInsets.all(8),
             child: Card(
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(30),
               ),
-              child: InkWell(
-                onTap: () {
-                  // Handle your tap here
-                  print('Card tapped');
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(35),
-                          boxShadow: kElevationToShadow[2],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(35),
-                          child: SizedBox.fromSize(
-                            size: const Size.fromRadius(100),
-                            child: Image.asset(
-                              plantData[index % plantData.length]["image"]!,
-                              fit: BoxFit.cover,
-                            ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        boxShadow: kElevationToShadow[2],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(35),
+                        child: SizedBox.fromSize(
+                          size: const Size.fromRadius(100),
+                          child: Image.asset(
+                            plantData[index % plantData.length]["image"]!,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        plantData[index % plantData.length]["name"]!,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      plantData[index % plantData.length]["name"]!,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
                     ),
-                    SizedBox(
-                      width: 100,
-                      height: 30,
-                      child: ElevatedButton(
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    width: 100,
+                    height: 30,
+                    child: ElevatedButton(
                       onPressed: () {
                         // Handle your button tap here
                         print('Explore tapped');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromRGBO(121, 147, 92, 1),
-                         padding: EdgeInsets.symmetric(horizontal: 0),
+                        padding: EdgeInsets.symmetric(horizontal: 0),
                         // minimumSize: Size(0, 0),
                       ),
                       child: Text(
                         'EXPLORE',
                         style: GoogleFonts.lato(
-                          textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                          textStyle:
+                              TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ),
                     ),
-                    ),
-                    const SizedBox(height: 20,),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
             ),
           );
