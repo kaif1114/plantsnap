@@ -1,6 +1,10 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:plantsnap/Screens/login_screen.dart';
+import 'package:plantsnap/Screens/menu_screen.dart';
 import 'package:plantsnap/widgets/inputfield.dart';
+import 'package:plantsnap/Services/firestore_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   RegistrationScreen({super.key});
@@ -16,13 +20,15 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   final passwordController = TextEditingController();
   final confirmpasswordController = TextEditingController();
 
+  final firestoreService = FirestoreService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 237, 237, 217),
       body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Padding(padding: EdgeInsets.symmetric(horizontal: 30, vertical: 40), child: Column(
+          child: Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 55), child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -70,7 +76,28 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                 width: 243,
                 height: 53,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    User? user = await firestoreService.SignUp(emailController.text, passwordController.text);
+                    if(user == null){
+                      print("Unable to Sign in");
+                    }
+                    else{
+                      String uid = user.uid;
+                      String email = user.email!;
+                      Map<String, dynamic> newUser = {
+                        "uid": user.uid,
+                        "username": usernameController.text,
+                        "email": emailController.text,
+                        "password": passwordController.text
+                      };
+                      print("User ID:  $uid, Email $email");
+                      firestoreService.addDocument('RegisteredUsers', newUser);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return MenuScreen(currentUser: user);
+                      }));
+                    }
+                    
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Colors.black), // Background color
@@ -96,7 +123,11 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                 children: [
                   Text("Already have an account?", style: GoogleFonts.lato(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 15),),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return LoginPage();
+                      }));
+                    },
                     child: Text("Log In", style: GoogleFonts.lato(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14),),
                   ),
                 ],

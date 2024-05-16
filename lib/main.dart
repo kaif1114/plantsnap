@@ -18,7 +18,7 @@ void main() async {
     MaterialApp(
       theme: ThemeData(
         backgroundColor: const Color.fromARGB(255, 237, 237, 217),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
+        colorScheme: ColorScheme.fromSwatch().copyWith( 
           background: const Color.fromARGB(255, 237, 237, 217),
         ),
       textTheme: GoogleFonts.latoTextTheme(),
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext build) {
-    return SafeArea(
-      child: CameraSnapshot(),
+    return const SafeArea(
+      child: StartScreen(),
     );
   }
 }

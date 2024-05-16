@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantsnap/Screens/menu_screen.dart';
+import 'package:plantsnap/Screens/registration_screen.dart';
 import 'package:plantsnap/widgets/inputfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40),
+          padding: const EdgeInsets.symmetric(vertical: 55),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (user != null) {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return MenuScreen();
+                          return MenuScreen(currentUser: user,);
                         }));
                       } else {
                         print("Incorrect Login details!");
@@ -139,7 +140,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {}, // Add navigation to register page
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return RegistrationScreen();
+                      }));
+                    }, // Add navigation to register page
                     child: Text(
                       'Register Now',
                       style: GoogleFonts.inter(

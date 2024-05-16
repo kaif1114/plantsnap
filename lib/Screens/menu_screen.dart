@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantsnap/models/plant.dart';
 import 'package:plantsnap/Services/perenual_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MenuScreen extends StatefulWidget {
-  MenuScreen({super.key});
+  MenuScreen({super.key, required this.currentUser});
+
+  User currentUser;
 
   State<MenuScreen> createState() {
     return MenuScreenState();

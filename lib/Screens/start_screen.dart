@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:plantsnap/Screens/login_screen.dart';
 
 // void main() {
 //   runApp(
@@ -59,7 +60,11 @@ class StartScreen extends StatelessWidget {
                 width: 240,
                 height: 60,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return LoginPage();
+                    }));
+                  },
                   style: buttonStyle,
                   child: Text(
                     'Get Started',
