@@ -7,6 +7,7 @@ import 'package:plantsnap/Screens/registration_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantsnap/Screens/start_screen.dart';
 import 'package:plantsnap/Screens/menu_screen.dart';
+import 'package:plantsnap/widgets/Camera.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext build) {
     return SafeArea(
-      child: MenuScreen(),
+      child: CameraSnapshot(),
     );
   }
 }
