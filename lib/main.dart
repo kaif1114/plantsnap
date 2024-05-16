@@ -7,7 +7,7 @@ import 'package:plantsnap/Screens/registration_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantsnap/Screens/start_screen.dart';
 import 'package:plantsnap/Screens/menu_screen.dart';
-import 'package:plantsnap/widgets/Camera.dart';
+import 'package:plantsnap/Screens/Camera.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

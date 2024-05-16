@@ -38,6 +38,7 @@ class CameraSnapshotState extends State<CameraSnapshot>{
 }
   Widget build(BuildContext context){
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Center(child: ElevatedButton(onPressed: getImageFromCamera, child: Text("Capture Image"),),),
     );
   }
