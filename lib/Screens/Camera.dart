@@ -78,46 +78,38 @@ class CameraSnapshotState extends State<CameraSnapshot> {
     var request = http.Request(
         'POST', Uri.parse('https://plant.id/api/v3/identification'));
     request.body = json.encode({
-      "images": [
-        "data:image/jpg;base64,$base64"
-      ],
+      "images": ["data:image/jpg;base64,$base64"],
       // "latitude": 49.207,
       // "longitude": 16.608,
       "similar_images": true
     });
     request.headers.addAll(headers);
-try{
-  http.StreamedResponse streamedResponse = await request.send();
-    // var response = await http.Response.fromStream(streamedResponse);
-
-    Map<String, dynamic> responseData;
-
-    if (streamedResponse.statusCode == 200 || streamedResponse.statusCode == 201) {
-
-      var response = await streamedResponse.stream.toString() as Map<String, dynamic>;
-
+    try {
+      http.StreamedResponse streamedResponse = await request.send();
+      // var response = await http.Response.fromStream(streamedResponse);
       var responsePhrase = streamedResponse.reasonPhrase;
       int responseCode = streamedResponse.statusCode;
-      print("ReasonPhrase: $responsePhrase");
-      print("StatusCode : $responseCode");
-      print(response);
-      responseData = response;
-      return responseData;
-      // responseData = json.decode(response.body);
-    } 
-}
-catch(e){
-  throw Exception(e);
-}
+      Map<String, dynamic> responseData;
+
+      if (streamedResponse.statusCode == 200 ||
+          streamedResponse.statusCode == 201) {
+        var response =
+            await streamedResponse.stream.toString() as Map<String, dynamic>;
+
+        print("ReasonPhrase: $responsePhrase");
+        print("StatusCode : $responseCode");
+        print(response);
+        responseData = response;
+        return responseData;
+        // responseData = json.decode(response.body);
+      } else {
+        return {"reasonphrase": responsePhrase, "responseCode": responseCode};
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+
     
-    // else {
-
-    //   var responsePhrase = streamedResponse.reasonPhrase;
-    //   int responseCode = streamedResponse.statusCode;
-    //   print("ReasonPhrase: $responsePhrase");
-    //   print("StatusCode : $responseCode");
-
-    // }
   }
 
   Widget build(BuildContext context) {

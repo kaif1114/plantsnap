@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:async';
-import 'package:plantsnap/Screens/login_screen.dart';
-import 'package:plantsnap/Screens/registration_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:plantsnap/Screens/plant_details.dart';
 import 'package:plantsnap/Screens/start_screen.dart';
-import 'package:plantsnap/Screens/menu_screen.dart';
-import 'package:plantsnap/Screens/Camera.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -23,19 +20,19 @@ void main() async {
         ),
       textTheme: GoogleFonts.latoTextTheme(),
       ),
-      home: MyApp(),
+      home: StartScreen(),
     ),
   );
 }
 
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext build) {
     return const SafeArea(
-      child: StartScreen(),
+      child: PlantDetails(),
     );
   }
 }
