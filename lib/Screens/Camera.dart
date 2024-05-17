@@ -1,8 +1,10 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:http/http.dart' as http;
 
 class CameraSnapshot extends StatefulWidget {
   CameraSnapshot({super.key});
@@ -33,7 +35,8 @@ class CameraSnapshotState extends State<CameraSnapshot> {
 
     if (pickedFile != null) {
       // Handle the picked image file
-      final _imgFile = pickedFile;
+      print("Inside pickedFile !=null block");
+      _imgFile = File(pickedFile.path);
       final imageProvider = FileImage(File(pickedFile.path));
     } else {
       print('User canceled the image picker');
@@ -60,6 +63,63 @@ class CameraSnapshotState extends State<CameraSnapshot> {
     return false;
   }
 
+  String imageToBase64() {
+    List<int> imageBytes = _imgFile!.readAsBytesSync();
+    print(imageBytes);
+    String base64Image = base64Encode(imageBytes);
+    return base64Image;
+  }
+
+  Future<Map<String, dynamic>> identifyImage(String base64) async {
+    var headers = {
+      'Api-Key': '9CIweznlABVQkVzBwnK0vq2UvRmAN14SUfgBud4fQxaiUY5Mwm',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request(
+        'POST', Uri.parse('https://plant.id/api/v3/identification'));
+    request.body = json.encode({
+      "images": [
+        "data:image/jpg;base64,$base64"
+      ],
+      // "latitude": 49.207,
+      // "longitude": 16.608,
+      "similar_images": true
+    });
+    request.headers.addAll(headers);
+try{
+  http.StreamedResponse streamedResponse = await request.send();
+    // var response = await http.Response.fromStream(streamedResponse);
+
+    Map<String, dynamic> responseData;
+
+    if (streamedResponse.statusCode == 200 || streamedResponse.statusCode == 201) {
+
+      var response = await streamedResponse.stream.toString() as Map<String, dynamic>;
+
+      var responsePhrase = streamedResponse.reasonPhrase;
+      int responseCode = streamedResponse.statusCode;
+      print("ReasonPhrase: $responsePhrase");
+      print("StatusCode : $responseCode");
+      print(response);
+      responseData = response;
+      return responseData;
+      // responseData = json.decode(response.body);
+    } 
+}
+catch(e){
+  throw Exception(e);
+}
+    
+    // else {
+
+    //   var responsePhrase = streamedResponse.reasonPhrase;
+    //   int responseCode = streamedResponse.statusCode;
+    //   print("ReasonPhrase: $responsePhrase");
+    //   print("StatusCode : $responseCode");
+
+    // }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -71,6 +131,9 @@ class CameraSnapshotState extends State<CameraSnapshot> {
               bool isUploaded = await uploadFileForUser();
               if (isUploaded == true) {
                 print("Upload success!");
+                String base64 = imageToBase64();
+                // print(base64);
+                identifyImage(base64);
               } else {
                 print("upload failed!");
               }
