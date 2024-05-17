@@ -1,3 +1,5 @@
+
+
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -75,36 +77,60 @@ class CameraSnapshotState extends State<CameraSnapshot> {
       'Api-Key': '9CIweznlABVQkVzBwnK0vq2UvRmAN14SUfgBud4fQxaiUY5Mwm',
       'Content-Type': 'application/json'
     };
-    var request = http.Request(
-        'POST', Uri.parse('https://plant.id/api/v3/identification'));
-    request.body = json.encode({
+  Uri url = Uri.parse("https://plant.id/api/v3/identification");
+  var body = json.encode({
       "images": ["data:image/jpg;base64,$base64"],
       // "latitude": 49.207,
       // "longitude": 16.608,
       "similar_images": true
     });
-    request.headers.addAll(headers);
+
+  
+  
+    // var request = http.Request(
+    //     'POST', Uri.parse('https://plant.id/api/v3/identification'));
+    // request.body = json.encode({
+    //   "images": ["data:image/jpg;base64,$base64"],
+    //   // "latitude": 49.207,
+    //   // "longitude": 16.608,
+    //   "similar_images": true
+    // });
+    // request.headers.addAll(headers);
     try {
-      http.StreamedResponse streamedResponse = await request.send();
-      // var response = await http.Response.fromStream(streamedResponse);
-      var responsePhrase = streamedResponse.reasonPhrase;
-      int responseCode = streamedResponse.statusCode;
-      Map<String, dynamic> responseData;
 
-      if (streamedResponse.statusCode == 200 ||
-          streamedResponse.statusCode == 201) {
-        var response =
-            await streamedResponse.stream.toString() as Map<String, dynamic>;
+      var response = await http.post(url, headers: headers, body: body );
+      int responseCode = response.statusCode;
+      if (response.statusCode == 200 || response.statusCode == 201) {
 
-        print("ReasonPhrase: $responsePhrase");
-        print("StatusCode : $responseCode");
-        print(response);
-        responseData = response;
+        Map<String, dynamic> responseData = json.decode(response.body);
+        print("Status Code: $responseCode");
+        print(responseData);
         return responseData;
-        // responseData = json.decode(response.body);
-      } else {
-        return {"reasonphrase": responsePhrase, "responseCode": responseCode};
       }
+      else{
+        return {"StatusCode" : response.statusCode};
+      }
+
+      // http.StreamedResponse streamedResponse = await request.send();
+      // // var response = await http.Response.fromStream(streamedResponse);
+      // var responsePhrase = streamedResponse.reasonPhrase;
+      // int responseCode = streamedResponse.statusCode;
+      // Map<String, dynamic> responseData;
+
+      // if (streamedResponse.statusCode == 200 ||
+      //     streamedResponse.statusCode == 201) {
+      //   var response =
+      //       await streamedResponse.stream.toString() as Map<String, dynamic>;
+
+      //   print("ReasonPhrase: $responsePhrase");
+      //   print("StatusCode : $responseCode");
+      //   print(response);
+      //   responseData = response;
+      //   return responseData;
+      //   // responseData = json.decode(response.body);
+      // } else {
+      //   return {"reasonphrase": responsePhrase, "responseCode": responseCode};
+      // }
     } catch (e) {
       throw Exception(e);
     }
