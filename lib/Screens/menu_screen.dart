@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantsnap/Screens/Camera.dart';
+import 'package:plantsnap/data/popular_plants.dart';
 import 'package:plantsnap/models/plant.dart';
 import 'package:plantsnap/Services/perenual_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:plantsnap/Screens/mylibrary_screen.dart';
 import 'package:plantsnap/Screens/saved_plants_screen.dart';
+import 'package:plantsnap/data/popular_plants.dart';
+import 'package:plantsnap/Screens/plant_details.dart';
 
 class MenuScreen extends StatefulWidget {
   MenuScreen({super.key, required this.currentUser});
@@ -93,24 +96,15 @@ class MenuScreenState extends State<MenuScreen> {
 }
 
 class PlantCardScroll extends StatelessWidget {
+  List<Map<String, dynamic>> plantData = popularPlants;
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 240, // Adjust height as needed
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 10, // Number of cards
+        itemCount: plantData.length, // Number of cards
         itemBuilder: (context, index) {
-          // Dummy data array for demonstration; replace with your data source
-          List<Map<String, String>> plantData = [
-            {"name": "Snake Plant", "image": "assets/images/house-plant.jpeg"},
-            {
-              "name": "Syngonium Plant",
-              "image": "assets/images/house-plant.jpeg"
-            },
-            // Add more plants as needed
-          ];
-
           return Container(
             width: 160, // Adjust width as needed
             padding: EdgeInsets.all(8),
@@ -132,8 +126,8 @@ class PlantCardScroll extends StatelessWidget {
                         borderRadius: BorderRadius.circular(35),
                         child: SizedBox.fromSize(
                           size: const Size.fromRadius(100),
-                          child: Image.asset(
-                            plantData[index % plantData.length]["image"]!,
+                          child: Image.network(
+                            plantData[index % plantData.length]["imageURL"]!,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -161,6 +155,10 @@ class PlantCardScroll extends StatelessWidget {
                       onPressed: () {
                         // Handle your button tap here
                         print('Explore tapped');
+
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return PlantDetails(name: plantData[index % plantData.length]["name"], imageURL: plantData[index % plantData.length]["imageURL"], description: plantData[index % plantData.length]["description"], kingdom: plantData[index % plantData.length]["kingdom"], family: plantData[index % plantData.length]["family"], commonName: plantData[index % plantData.length]["commonName"]);
+                        }));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromRGBO(121, 147, 92, 1),

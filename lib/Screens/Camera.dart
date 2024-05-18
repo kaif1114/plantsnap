@@ -141,40 +141,59 @@ class CameraSnapshotState extends State<CameraSnapshot> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
-        child: isLoading? CircularProgressIndicator() : ElevatedButton(
-          onPressed: () async {
-            await getImageFromCamera();
+        child: isLoading
+            ? CircularProgressIndicator()
+            : ElevatedButton(
+                onPressed: () async {
+                  await getImageFromCamera();
 
-            if (_imgFile != null) {
-              bool isUploaded = await uploadFileForUser();
-              if (isUploaded == true) {
-                print("Upload success!");
-                String base64 = imageToBase64();
-                // print(base64);
-                Map<String, dynamic> plantDetails = await identifyImage(base64);
-                String imageURL = plantDetails["result"]["classification"]["suggestions"][0]["similar_images"][0]["url"];
-                String plantName = plantDetails["result"]["classification"]["suggestions"][0]["name"];
-                String plantKingdom = plantDetails["result"]["classification"]["suggestions"][0]["details"]["taxonomy"]["kingdom"];
-                String plantFamily = plantDetails["result"]["classification"]["suggestions"][0]["details"]["taxonomy"]["family"];
-                String commonName = plantDetails["result"]["classification"]["suggestions"][0]["details"]["common_names"][0];
-                String plantDescription = plantDetails["result"]["classification"]["suggestions"][0]["details"]["description"]["value"];
+                  if (_imgFile != null) {
+                    bool isUploaded = await uploadFileForUser();
+                    if (isUploaded == true) {
+                      print("Upload success!");
+                      String base64 = imageToBase64();
+                      // print(base64);
+                      Map<String, dynamic> plantDetails =
+                          await identifyImage(base64);
+                      String imageURL = plantDetails["result"]["classification"]
+                          ["suggestions"][0]["similar_images"][0]["url"];
+                      String plantName = plantDetails["result"]
+                          ["classification"]["suggestions"][0]["name"];
+                      String plantKingdom = plantDetails["result"]
+                              ["classification"]["suggestions"][0]["details"]
+                          ["taxonomy"]["kingdom"];
+                      String plantFamily = plantDetails["result"]
+                              ["classification"]["suggestions"][0]["details"]
+                          ["taxonomy"]["family"];
+                      String commonName = plantDetails["result"]
+                              ["classification"]["suggestions"][0]["details"]
+                          ["common_names"][0];
+                      String plantDescription = plantDetails["result"]
+                              ["classification"]["suggestions"][0]["details"]
+                          ["description"]["value"];
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PlantDetails(name: plantName, imageURL: imageURL, kingdom: plantKingdom, family: plantFamily, commonName: commonName, description: plantDescription,);
-                }));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return PlantDetails(
+                          name: plantName,
+                          imageURL: imageURL,
+                          kingdom: plantKingdom,
+                          family: plantFamily,
+                          commonName: commonName,
+                          description: plantDescription,
+                        );
+                      }));
 
-                setState(() {
-                  isLoading = false;
-                });
-
-              } 
-              else {
-                print("upload failed!");
-              }
-            }
-          },
-          child: Text("Capture Image"),
-        ),
+                      setState(() {
+                        isLoading = false;
+                      });
+                    } else {
+                      print("upload failed!");
+                    }
+                  }
+                },
+                child: Text("Capture Image"),
+              ),
       ),
     );
   }
