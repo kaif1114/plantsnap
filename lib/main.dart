@@ -20,7 +20,7 @@ void main() async {
         ),
       textTheme: GoogleFonts.latoTextTheme(),
       ),
-      home: StartScreen(),
+      home: MyApp(),
     ),
   );
 }
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext build) {
     return const SafeArea(
-      child: PlantDetails(),
+      child: StartScreen(),
     );
   }
 }

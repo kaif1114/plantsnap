@@ -1,4 +1,4 @@
-
+import 'dart:async';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantsnap/Screens/plant_details.dart';
 
 class CameraSnapshot extends StatefulWidget {
   CameraSnapshot({super.key});
@@ -18,6 +19,7 @@ class CameraSnapshot extends StatefulWidget {
 
 class CameraSnapshotState extends State<CameraSnapshot> {
   File? _imgFile;
+  bool isLoading = false;
 
   void takeSnapshot() async {
     final ImagePicker picker = ImagePicker();
@@ -46,6 +48,9 @@ class CameraSnapshotState extends State<CameraSnapshot> {
   }
 
   Future<bool> uploadFileForUser() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       final userId = FirebaseAuth.instance.currentUser?.uid;
       final storageRef = FirebaseStorage.instance.ref();
@@ -77,16 +82,15 @@ class CameraSnapshotState extends State<CameraSnapshot> {
       'Api-Key': '9CIweznlABVQkVzBwnK0vq2UvRmAN14SUfgBud4fQxaiUY5Mwm',
       'Content-Type': 'application/json'
     };
-  Uri url = Uri.parse("https://plant.id/api/v3/identification");
-  var body = json.encode({
+    Uri url = Uri.parse(
+        "https://plant.id/api/v3/identification?details=common_names,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering&language=en");
+    var body = json.encode({
       "images": ["data:image/jpg;base64,$base64"],
       // "latitude": 49.207,
       // "longitude": 16.608,
       "similar_images": true
     });
 
-  
-  
     // var request = http.Request(
     //     'POST', Uri.parse('https://plant.id/api/v3/identification'));
     // request.body = json.encode({
@@ -97,18 +101,15 @@ class CameraSnapshotState extends State<CameraSnapshot> {
     // });
     // request.headers.addAll(headers);
     try {
-
-      var response = await http.post(url, headers: headers, body: body );
+      var response = await http.post(url, headers: headers, body: body);
       int responseCode = response.statusCode;
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         Map<String, dynamic> responseData = json.decode(response.body);
         print("Status Code: $responseCode");
         print(responseData);
         return responseData;
-      }
-      else{
-        return {"StatusCode" : response.statusCode};
+      } else {
+        return {"StatusCode": response.statusCode};
       }
 
       // http.StreamedResponse streamedResponse = await request.send();
@@ -134,25 +135,40 @@ class CameraSnapshotState extends State<CameraSnapshot> {
     } catch (e) {
       throw Exception(e);
     }
-
-    
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
-        child: ElevatedButton(
+        child: isLoading? CircularProgressIndicator() : ElevatedButton(
           onPressed: () async {
             await getImageFromCamera();
+
             if (_imgFile != null) {
               bool isUploaded = await uploadFileForUser();
               if (isUploaded == true) {
                 print("Upload success!");
                 String base64 = imageToBase64();
                 // print(base64);
-                identifyImage(base64);
-              } else {
+                Map<String, dynamic> plantDetails = await identifyImage(base64);
+                String imageURL = plantDetails["result"]["classification"]["suggestions"][0]["similar_images"][0]["url"];
+                String plantName = plantDetails["result"]["classification"]["suggestions"][0]["name"];
+                String plantKingdom = plantDetails["result"]["classification"]["suggestions"][0]["details"]["taxonomy"]["kingdom"];
+                String plantFamily = plantDetails["result"]["classification"]["suggestions"][0]["details"]["taxonomy"]["family"];
+                String commonName = plantDetails["result"]["classification"]["suggestions"][0]["details"]["common_names"][0];
+                String plantDescription = plantDetails["result"]["classification"]["suggestions"][0]["details"]["description"]["value"];
+
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PlantDetails(name: plantName, imageURL: imageURL, kingdom: plantKingdom, family: plantFamily, commonName: commonName, description: plantDescription,);
+                }));
+
+                setState(() {
+                  isLoading = false;
+                });
+
+              } 
+              else {
                 print("upload failed!");
               }
             }
