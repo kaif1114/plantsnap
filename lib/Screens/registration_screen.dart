@@ -92,6 +92,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       };
                       print("User ID:  $uid, Email $email");
                       firestoreService.addDocument('RegisteredUsers', newUser);
+                      firestoreService.createNewCollection(uid);
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
                         return MenuScreen(currentUser: user);
                       }));

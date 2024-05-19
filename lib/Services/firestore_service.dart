@@ -27,6 +27,20 @@ class FirestoreService {
       return []; // Return an empty list in case of an error
     }
   }
+
+  Future<void> createNewCollection(String collectionName) async {
+    // Get a reference to the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Create a new document in the specified collection
+    await firestore.collection(collectionName).add({
+      'created_at': FieldValue.serverTimestamp(),
+      'sample_data': 'This is a new collection'
+    });
+
+    print('New collection "$collectionName" created with a document.');
+  }
+
   Future<List<String>> getAllDocumentsIds(
       String collectionName) async {
     try {
