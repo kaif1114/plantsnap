@@ -239,7 +239,7 @@ class HomePageState extends State<HomePage>{
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(35),
                                 child: SizedBox.fromSize(
-                                  size: const Size.fromRadius(100),
+                                  size: const Size.fromRadius(90),
                                   child: Image.network(
                                     featuredPlantData.images!["original_url"],
                                     fit: BoxFit.cover,

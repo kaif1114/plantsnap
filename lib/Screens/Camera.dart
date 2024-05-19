@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -192,7 +192,8 @@ class CameraSnapshotState extends State<CameraSnapshot> {
                     }
                   }
                 },
-                child: Text("Capture Image"),
+                style: ElevatedButton.styleFrom(backgroundColor: Color.fromRGBO(121, 147, 92, 1), foregroundColor: Colors.white),
+                child: Text("Capture Image", style: GoogleFonts.lato(fontSize: 15),),
               ),
       ),
     );
