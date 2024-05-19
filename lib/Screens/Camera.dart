@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:plantsnap/Screens/plant_details.dart';
+import 'package:plantsnap/Services/firestore_service.dart';
 
 class CameraSnapshot extends StatefulWidget {
   CameraSnapshot({super.key});
@@ -20,6 +21,7 @@ class CameraSnapshot extends StatefulWidget {
 class CameraSnapshotState extends State<CameraSnapshot> {
   File? _imgFile;
   bool isLoading = false;
+  String completeFileName = "";
 
   void takeSnapshot() async {
     final ImagePicker picker = ImagePicker();
@@ -59,7 +61,11 @@ class CameraSnapshotState extends State<CameraSnapshot> {
         final timestamp = DateTime.now().microsecondsSinceEpoch;
         final uploadRef =
             storageRef.child("$userId/uploads/$timestamp-$fileName");
+        
         await uploadRef.putFile(_imgFile!);
+
+      completeFileName = "$timestamp-$fileName";
+
         return true;
       } else {
         print("_imgFile is null!!!");
@@ -86,20 +92,9 @@ class CameraSnapshotState extends State<CameraSnapshot> {
         "https://plant.id/api/v3/identification?details=common_names,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering&language=en");
     var body = json.encode({
       "images": ["data:image/jpg;base64,$base64"],
-      // "latitude": 49.207,
-      // "longitude": 16.608,
       "similar_images": true
     });
 
-    // var request = http.Request(
-    //     'POST', Uri.parse('https://plant.id/api/v3/identification'));
-    // request.body = json.encode({
-    //   "images": ["data:image/jpg;base64,$base64"],
-    //   // "latitude": 49.207,
-    //   // "longitude": 16.608,
-    //   "similar_images": true
-    // });
-    // request.headers.addAll(headers);
     try {
       var response = await http.post(url, headers: headers, body: body);
       int responseCode = response.statusCode;
@@ -111,41 +106,13 @@ class CameraSnapshotState extends State<CameraSnapshot> {
       } else {
         return {"StatusCode": response.statusCode};
       }
-
-      // http.StreamedResponse streamedResponse = await request.send();
-      // // var response = await http.Response.fromStream(streamedResponse);
-      // var responsePhrase = streamedResponse.reasonPhrase;
-      // int responseCode = streamedResponse.statusCode;
-      // Map<String, dynamic> responseData;
-
-      // if (streamedResponse.statusCode == 200 ||
-      //     streamedResponse.statusCode == 201) {
-      //   var response =
-      //       await streamedResponse.stream.toString() as Map<String, dynamic>;
-
-      //   print("ReasonPhrase: $responsePhrase");
-      //   print("StatusCode : $responseCode");
-      //   print(response);
-      //   responseData = response;
-      //   return responseData;
-      //   // responseData = json.decode(response.body);
-      // } else {
-      //   return {"reasonphrase": responsePhrase, "responseCode": responseCode};
-      // }
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: Center(
-        child: isLoading
-            ? CircularProgressIndicator()
-            : ElevatedButton(
-                onPressed: () async {
-                  await getImageFromCamera();
+  Future<void> handleClick() async {
+    await getImageFromCamera();
 
                   if (_imgFile != null) {
                     bool isUploaded = await uploadFileForUser();
@@ -172,6 +139,9 @@ class CameraSnapshotState extends State<CameraSnapshot> {
                               ["classification"]["suggestions"][0]["details"]
                           ["description"]["value"];
 
+                      final userId = FirebaseAuth.instance.currentUser?.uid;
+                      await FirestoreService().addDocument(userId!, {"imageURL": imageURL, "plantName": plantName, "plantKingdom": plantKingdom, "plantFamily": plantFamily, "commonName": commonName, "plantDescription": plantDescription});
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return PlantDetails(
@@ -191,7 +161,16 @@ class CameraSnapshotState extends State<CameraSnapshot> {
                       print("upload failed!");
                     }
                   }
-                },
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Center(
+        child: isLoading
+            ? CircularProgressIndicator()
+            : ElevatedButton(
+                onPressed: handleClick,
                 style: ElevatedButton.styleFrom(backgroundColor: Color.fromRGBO(121, 147, 92, 1), foregroundColor: Colors.white),
                 child: Text("Capture Image", style: GoogleFonts.lato(fontSize: 15),),
               ),

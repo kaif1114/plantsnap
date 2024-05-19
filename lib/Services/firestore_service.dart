@@ -65,6 +65,16 @@ class FirestoreService {
     }
   }
 
+    Future<void> addNamedDocument(String collectionName, String documentName, Map<String, dynamic> data) async {
+    try {
+      await _firestore.collection(collectionName).doc(documentName).set(data);
+      print('Document added successfully');
+    } catch (error) {
+      print('Failed to add document: $error');
+    }
+  }
+
+
   // Example: Update a document in a collection
   Future<void> updateDocument(String collectionName, String documentId,
       Map<String, dynamic> data) async {
