@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 10,),
-              invalidLogin? Center(child: Text("Invalid login Details"),) : const SizedBox(height: 10,),
+              invalidLogin? Center(child: Text("Invalid login Details", style: TextStyle(color: const Color.fromARGB(255, 255, 37, 21)),),) : const SizedBox(height: 10,),
               const SizedBox(height: 15.0),
               MyForm(onInvalidLogin: handleInvalidLogin,),
               const SizedBox(height: 3.0),

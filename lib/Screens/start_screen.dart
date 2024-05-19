@@ -33,6 +33,7 @@ class StartScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -74,6 +75,11 @@ class StartScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(height: 50,),
+              Align(
+                child: Text("Developed by Kaif and Alishba.", style: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w600),),
+                alignment: Alignment.bottomCenter,
               )
             ],
           ),
