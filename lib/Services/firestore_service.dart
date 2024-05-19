@@ -33,9 +33,10 @@ class FirestoreService {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     // Create a new document in the specified collection
-    await firestore.collection(collectionName).add({
+    await firestore.collection(collectionName).doc("dummy").set({
       'created_at': FieldValue.serverTimestamp(),
-      'sample_data': 'This is a new collection'
+      'sample_data': 'This is a new collection',
+      'plantName': "dummy",
     });
 
     print('New collection "$collectionName" created with a document.');

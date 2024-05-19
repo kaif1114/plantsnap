@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:plantsnap/Screens/plant_details.dart';
+import 'package:plantsnap/Screens/saved_plants_screen.dart';
 import 'package:plantsnap/Services/firestore_service.dart';
 
 class CameraSnapshot extends StatefulWidget {
@@ -140,6 +141,15 @@ class CameraSnapshotState extends State<CameraSnapshot> {
                           ["description"]["value"];
 
                       final userId = FirebaseAuth.instance.currentUser?.uid;
+
+                      List<Map<String, dynamic>> userDocuments = await FirestoreService().getAllDocuments(userId!);
+                      userDocuments.forEach((doc) {
+                        if(doc["docId"] == "dummy"){
+                          FirestoreService().deleteDocument(userId, "dummy");
+                          
+                        }
+                       });
+
                       await FirestoreService().addDocument(userId!, {"imageURL": imageURL, "plantName": plantName, "plantKingdom": plantKingdom, "plantFamily": plantFamily, "commonName": commonName, "plantDescription": plantDescription});
 
                       Navigator.push(context,

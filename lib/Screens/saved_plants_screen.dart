@@ -50,7 +50,13 @@ class SavedPlantsState extends State<SavedPlants> {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
-          } else if (snapshot.hasData) {
+
+          } 
+      
+          else if (snapshot.hasData) {
+            if(snapshot.data![0]["docId"] == "dummy"){
+              return const Center(child: Text("No Saved Plants. Start by scanning a plant!"),);
+            }
             // Process snapshot data if necessary and update plantList accordingly
             return Column(
               children: [
