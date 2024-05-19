@@ -110,26 +110,7 @@ class SavedPlantsState extends State<SavedPlants> {
           // Process snapshot data if necessary and update plantList accordingly
           return Padding(padding: const EdgeInsets.all(16), child: Column(
             children: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        const Color(0xFF2E7D32), // Dark green color
-                    minimumSize:
-                        const Size.fromHeight(50), // Make the button full-width
-                  ),
-                  onPressed: CameraSnapshotState().handleClick,
-                  child: const Text(
-                    'Add Plant',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                    height: 10,
-                  ),
+              
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor:

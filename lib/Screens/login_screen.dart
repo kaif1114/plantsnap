@@ -60,15 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 50.0),
-              InputField(
-                hintText: 'Email, phone & username',
-                controller: _emailController,
-              ),
-              const SizedBox(height: 10.0),
-              InputField(
-                hintText: 'Password',
-                controller: _passwordController,
-              ),
+              MyForm(),
               const SizedBox(height: 3.0),
               SizedBox(
                   width: double.infinity,
@@ -90,42 +82,42 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   )),
               const SizedBox(height: 3.0),
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: 243,
-                  height: 53,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      User? user = await fireStoreService.SignIn(
-                          _emailController.text, _passwordController.text);
-                      if (user != null) {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return MenuScreen(currentUser: user,);
-                        }));
-                      } else {
-                        print("Incorrect Login details!");
-                      }
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.black), // Background color
-                      textStyle: MaterialStateProperty.all<TextStyle>(
-                        const TextStyle(color: Colors.white), // Text color
-                      ),
-                    ),
-                    child: Text(
-                      'Sign In',
-                      style: GoogleFonts.lato(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 25.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: SizedBox(
+              //     width: 243,
+              //     height: 53,
+              //     child: ElevatedButton(
+              //       onPressed: () async {
+              //         User? user = await fireStoreService.SignIn(
+              //             _emailController.text, _passwordController.text);
+              //         if (user != null) {
+              //           Navigator.push(context,
+              //               MaterialPageRoute(builder: (context) {
+              //             return MenuScreen(currentUser: user,);
+              //           }));
+              //         } else {
+              //           print("Incorrect Login details!");
+              //         }
+              //       },
+              //       style: ButtonStyle(
+              //         backgroundColor: MaterialStateProperty.all<Color>(
+              //             Colors.black), // Background color
+              //         textStyle: MaterialStateProperty.all<TextStyle>(
+              //           const TextStyle(color: Colors.white), // Text color
+              //         ),
+              //       ),
+              //       child: Text(
+              //         'Sign In',
+              //         style: GoogleFonts.lato(
+              //           fontWeight: FontWeight.w400,
+              //           fontSize: 25.0,
+              //           color: Colors.white,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 20.0),
               Image.asset('assets/images/or-bar.png'),
               const SizedBox(height: 15.0),
@@ -158,6 +150,80 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+
+class MyForm extends StatefulWidget {
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+
+  FirestoreService fireStoreService = FirestoreService();
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          InputField(
+            controller: emailController,
+            hintText: 'Enter your email',
+            type: 'email',
+          ),
+          SizedBox(height: 12),
+          InputField(
+            controller: passwordController,
+            hintText: 'Enter your password',
+            type: 'password',
+          ),
+          SizedBox(height: 12),
+          Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 243,
+                  height: 53,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      User? user = await fireStoreService.SignIn(
+                          emailController.text, passwordController.text);
+                      if (user != null) {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return MenuScreen(currentUser: user,);
+                        }));
+                      } else {
+                        print("Incorrect Login details!");
+                      }
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.black), // Background color
+                      textStyle: MaterialStateProperty.all<TextStyle>(
+                        const TextStyle(color: Colors.white), // Text color
+                      ),
+                    ),
+                    child: Text(
+                      'Sign In',
+                      style: GoogleFonts.lato(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 25.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+        ],
       ),
     );
   }
