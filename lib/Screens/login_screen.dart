@@ -13,8 +13,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+
+  bool invalidLogin = false;
+  void handleInvalidLogin(){
+    setState(() {
+      invalidLogin = true;
+    });
+  }
+
 
   final fireStoreService = FirestoreService();
 
@@ -24,10 +30,11 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 55),
+          padding: const EdgeInsets.symmetric(vertical: 65),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               Image.asset(
                 'assets/images/PlantSnap.png',
                 height: 45.0,
@@ -59,8 +66,10 @@ class _LoginPageState extends State<LoginPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 50.0),
-              MyForm(),
+              SizedBox(height: 10,),
+              invalidLogin? Center(child: Text("Invalid login Details"),) : const SizedBox(height: 10,),
+              const SizedBox(height: 15.0),
+              MyForm(onInvalidLogin: handleInvalidLogin,),
               const SizedBox(height: 3.0),
               SizedBox(
                   width: double.infinity,
@@ -157,6 +166,10 @@ class _LoginPageState extends State<LoginPage> {
 
 
 class MyForm extends StatefulWidget {
+  MyForm({super.key, required this.onInvalidLogin});
+
+  final Function onInvalidLogin;
+
   @override
   _MyFormState createState() => _MyFormState();
 }
@@ -202,7 +215,7 @@ class _MyFormState extends State<MyForm> {
                           return MenuScreen(currentUser: user,);
                         }));
                       } else {
-                        print("Incorrect Login details!");
+                        widget.onInvalidLogin();
                       }
                     },
                     style: ButtonStyle(

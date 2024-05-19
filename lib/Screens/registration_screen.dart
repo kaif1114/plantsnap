@@ -28,7 +28,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
       backgroundColor: const Color.fromARGB(255, 237, 237, 217),
       body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 55), child: Column(
+          child: Padding(padding: EdgeInsets.symmetric(horizontal: 20, vertical: 65), child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
