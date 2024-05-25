@@ -62,7 +62,7 @@ class StartScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: 70,),
               Align(
                 child: Text("Developed by Kaif and Alishba.", style: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w600),),
                 alignment: Alignment.bottomCenter,

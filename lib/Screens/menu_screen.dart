@@ -216,6 +216,7 @@ class HomePageState extends State<HomePage>{
 
           if (snapshot.connectionState == ConnectionState.done) {
             Plant featuredPlantData = snapshot.data!;
+            
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -240,10 +241,10 @@ class HomePageState extends State<HomePage>{
                                 borderRadius: BorderRadius.circular(35),
                                 child: SizedBox.fromSize(
                                   size: const Size.fromRadius(80),
-                                  child: Image.network(
-                                    featuredPlantData.images!["original_url"],
+                                  child:  featuredPlantData.images?["original_url"] !=null ? Image.network(
+                                    featuredPlantData.images!["original_url"] ,
                                     fit: BoxFit.cover,
-                                  ),
+                                  ) : Image.asset('assets/images/house-plant.jpeg', fit: BoxFit.cover,),
                                 ),
                               ),
                             ),
@@ -254,7 +255,7 @@ class HomePageState extends State<HomePage>{
                                     horizontal: 20, vertical: 10),
                                 child: Center(
                                   child: Text(
-                                    featuredPlantData.name.toString(),
+                                    featuredPlantData.name != null ? featuredPlantData.name.toString() : "Lemon Bonsai",
                                     style: GoogleFonts.quantico(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
