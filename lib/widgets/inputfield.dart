@@ -57,6 +57,7 @@ class InputFieldState extends State<InputField> {
       textAlign: TextAlign.start,
       controller: widget.controller,
       keyboardType: widget.type == 'phone' ? TextInputType.number : TextInputType.text,
+      obscureText: widget.type == 'password', // Set obscureText to true for password type
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),

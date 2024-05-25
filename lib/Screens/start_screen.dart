@@ -2,20 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantsnap/Screens/login_screen.dart';
 
-// void main() {
-//   runApp(
-//     MaterialApp(
-//       theme: ThemeData(
-//         backgroundColor: const Color.fromARGB(255, 237, 237, 217),
-//         colorScheme: ColorScheme.fromSwatch().copyWith(
-//           background: const Color.fromARGB(255, 237, 237, 217),
-//         ),
-//       ),
-//       home: MyApp(),
-//     ),
-//   );
-// }
-
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
@@ -37,16 +23,16 @@ class StartScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 70),
+              const SizedBox(height: 50),
               Image.asset(
                 'assets/images/PlantSnap.png',
-                height: 65,
+                height: 55,
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
               Text(
                 'Your own plant encyclopedia',
                 style: GoogleFonts.plusJakartaSans(
-                  fontSize: 15,
+                  fontSize: 13,
                   color: Colors.black87,
                   fontWeight: FontWeight.bold,
                 ),
@@ -54,12 +40,12 @@ class StartScreen extends StatelessWidget {
               const SizedBox(height: 25),
               Image.asset(
                 'assets/images/plant.png',
-                height: 391,
+                height: 361,
               ),
               const SizedBox(height: 25),
               SizedBox(
-                width: 240,
-                height: 60,
+                width: 210,
+                height: 49,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -76,7 +62,7 @@ class StartScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(height: 30,),
               Align(
                 child: Text("Developed by Kaif and Alishba.", style: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w600),),
                 alignment: Alignment.bottomCenter,

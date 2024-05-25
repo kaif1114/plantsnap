@@ -23,7 +23,7 @@ class PlantDetails extends StatelessWidget {
           child: Column(
             children: <Widget>[
               // Plant Details Heading with spacing
-
+              const SizedBox(height: 20,),
               Text(
                 'Plant Details',
                 style: GoogleFonts.lato(

@@ -219,7 +219,7 @@ class HomePageState extends State<HomePage>{
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Column(
+              child: SingleChildScrollView(child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -239,7 +239,7 @@ class HomePageState extends State<HomePage>{
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(35),
                                 child: SizedBox.fromSize(
-                                  size: const Size.fromRadius(90),
+                                  size: const Size.fromRadius(80),
                                   child: Image.network(
                                     featuredPlantData.images!["original_url"],
                                     fit: BoxFit.cover,
@@ -297,6 +297,7 @@ class HomePageState extends State<HomePage>{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
+                        width: 150,
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -306,11 +307,12 @@ class HomePageState extends State<HomePage>{
                           child: Text(
                             "All Categories",
                             style: GoogleFonts.lato(
-                                fontWeight: FontWeight.w700, fontSize: 18),
+                                fontWeight: FontWeight.w700, fontSize: 15),
                           ),
                         ),
                       ),
                       SizedBox(
+                        width: 155,
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -318,9 +320,9 @@ class HomePageState extends State<HomePage>{
                                   const Color.fromARGB(255, 122, 146, 92),
                               foregroundColor: Colors.white),
                           child: Text(
-                            "All Categories",
+                            "House Plants",
                             style: GoogleFonts.lato(
-                                fontWeight: FontWeight.w700, fontSize: 18),
+                                fontWeight: FontWeight.w700, fontSize: 15),
                           ),
                         ),
                       ),
@@ -338,7 +340,7 @@ class HomePageState extends State<HomePage>{
                   ),
                   PlantCardScroll(),
                 ],
-              ),
+              ),)
             );
           } else {
             throw Exception("Future Builder Error");

@@ -44,10 +44,15 @@ dependencies:
   image_picker: ^1.1.1
   salomon_bottom_bar: ^3.3.2
   firebase_storage: ^11.7.5
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  image_path: "assets/images/applogo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -89,6 +94,7 @@ flutter:
       - assets/images/Leafy.jpg
       - assets/images/monstera.png
       - assets/images/Cherry_Blossom.jpg
+      - assets/images/applogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

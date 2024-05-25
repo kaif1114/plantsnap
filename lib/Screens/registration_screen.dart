@@ -183,8 +183,8 @@ class _MyFormState extends State<MyForm> {
           Align(
               alignment: Alignment.center,
               child: SizedBox(
-                width: 243,
-                height: 53,
+                width: 210,
+                height: 49,
                 child: ElevatedButton(
                   onPressed: () async {
                      if (_formKey.currentState?.validate() ?? false){

@@ -37,11 +37,6 @@ class SavedPlantsState extends State<SavedPlants> {
     getSavedPlants();
   }
 
-  List<Plant> plantList = [
-    Plant(name: "Leafy", imgURL: 'assets/images/Leafy.jpg'),
-    Plant(name: "Cherry Blossom", imgURL: 'assets/images/Cherry_Blossom.jpg'),
-    Plant(name: "Monstera", imgURL: 'assets/images/monstera.png'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -58,26 +53,8 @@ class SavedPlantsState extends State<SavedPlants> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          const Color(0xFF2E7D32), // Dark green color
-                      minimumSize: const Size.fromHeight(
-                          50), // Make the button full-width
-                    ),
-                    onPressed: CameraSnapshotState().handleClick,
-                    child: const Text(
-                      'Add Plant',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  
+                  
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
@@ -153,9 +130,9 @@ class SavedPlantsState extends State<SavedPlants> {
                         child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(35)),
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(6),
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(6.0),
                             child: Row(
                               children: [
                                 Container(
@@ -174,12 +151,12 @@ class SavedPlantsState extends State<SavedPlants> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
                                     savedPlant["plantName"],
                                     style: GoogleFonts.lato(
-                                      fontSize: 20,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
