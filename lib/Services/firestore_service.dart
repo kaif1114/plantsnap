@@ -12,6 +12,8 @@ class FirestoreService {
       final QuerySnapshot querySnapshot =
           await _firestore.collection(collectionName).get();
       List<Map<String, dynamic>> docsData = [];
+
+      
       querySnapshot.docs
           .forEach((doc) {
             docsData.add({

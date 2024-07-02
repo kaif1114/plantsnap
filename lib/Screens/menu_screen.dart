@@ -153,9 +153,7 @@ class PlantCardScroll extends StatelessWidget {
                     height: 30,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Handle your button tap here
                         print('Explore tapped');
-
                         Navigator.push(context, MaterialPageRoute(builder: (context){
                           return PlantDetails(name: plantData[index % plantData.length]["name"], imageURL: plantData[index % plantData.length]["imageURL"], description: plantData[index % plantData.length]["description"], kingdom: plantData[index % plantData.length]["kingdom"], family: plantData[index % plantData.length]["family"], commonName: plantData[index % plantData.length]["commonName"]);
                         }));

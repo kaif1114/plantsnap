@@ -18,6 +18,7 @@ class InputField extends StatefulWidget {
 }
 
 class InputFieldState extends State<InputField> {
+  
   String? _validateInput(String? value) {
     if (widget.type == 'email') {
       // Email validation
