@@ -86,7 +86,7 @@ class CameraSnapshotState extends State<CameraSnapshot> {
 
   Future<Map<String, dynamic>> identifyImage(String base64) async {
     var headers = {
-      'Api-Key': '9CIweznlABVQkVzBwnK0vq2UvRmAN14SUfgBud4fQxaiUY5Mwm',
+      'Api-Key': 'API_KEY_HERE',
       'Content-Type': 'application/json'
     };
     Uri url = Uri.parse(
